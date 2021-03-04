@@ -32,8 +32,6 @@ RUN curl https://get.helm.sh/helm-v${HELM_VERSION}-linux-amd64.tar.gz --output h
     && tar xvfz helm-${HELM_VERSION}.tgz \
     && cp linux-amd64/helm /usr/bin/
 
-RUN helm plugin install https://github.com/aslafy-z/helm-git --version 0.10.0
-
 USER github
 WORKDIR /home/github
 
@@ -43,5 +41,7 @@ RUN GITHUB_RUNNER_VERSION=$(curl --silent "https://api.github.com/repos/actions/
 
 COPY --chown=github:github entrypoint.sh runsvc.sh ./
 RUN sudo chmod u+x ./entrypoint.sh ./runsvc.sh
+
+RUN helm plugin install https://github.com/aslafy-z/helm-git --version 0.10.0
 
 ENTRYPOINT ["/home/github/entrypoint.sh"]
