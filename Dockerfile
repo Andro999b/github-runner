@@ -1,5 +1,7 @@
 FROM debian:buster-slim
 
+ARG DOCKER_VERSION "20.10.5"
+
 ENV GITHUB_PAT ""
 ENV GITHUB_OWNER ""
 ENV GITHUB_REPOSITORY ""
@@ -18,6 +20,9 @@ RUN apt-get update \
     && useradd -m github \
     && usermod -aG sudo github \
     && echo "%sudo ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+    && curl https://download.docker.com/linux/static/stable/x86_64/docker-.tgz --output docker-${DOCKER_VERSION}.tgz \
+    && tar xvfz docker-${DOCKER_VERSION}.tgz \
+    && cp docker/* /usr/bin/
 
 USER github
 WORKDIR /home/github
