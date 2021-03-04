@@ -1,6 +1,7 @@
 FROM debian:buster-slim
 
 ARG DOCKER_VERSION="20.10.5"
+ARG HELM_VERSION="3.5.2"
 
 ENV GITHUB_PAT ""
 ENV GITHUB_OWNER ""
@@ -24,6 +25,10 @@ RUN apt-get update \
 RUN curl https://download.docker.com/linux/static/stable/x86_64/docker-${DOCKER_VERSION}.tgz --output docker-${DOCKER_VERSION}.tgz \
     && tar xvfz docker-${DOCKER_VERSION}.tgz \
     && cp docker/* /usr/bin/
+
+RUN curl https://get.helm.sh/helm-v${HELM_VERSION}-linux-amd64.tar.gz --output helm-${HELM_VERSION}.tgz \
+    && tar xvfz helm-${HELM_VERSION}.tgz \
+    && cp linux-amd64/helm /usr/bin/
 
 USER github
 WORKDIR /home/github
