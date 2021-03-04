@@ -22,13 +22,17 @@ RUN apt-get update \
     && usermod -aG sudo github \
     && echo "%sudo ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
+#install docker client
 RUN curl https://download.docker.com/linux/static/stable/x86_64/docker-${DOCKER_VERSION}.tgz --output docker-${DOCKER_VERSION}.tgz \
     && tar xvfz docker-${DOCKER_VERSION}.tgz \
     && cp docker/* /usr/bin/
 
+#install helms
 RUN curl https://get.helm.sh/helm-v${HELM_VERSION}-linux-amd64.tar.gz --output helm-${HELM_VERSION}.tgz \
     && tar xvfz helm-${HELM_VERSION}.tgz \
     && cp linux-amd64/helm /usr/bin/
+
+RUN helm plugin install https://github.com/aslafy-z/helm-git --version 0.10.0
 
 USER github
 WORKDIR /home/github
